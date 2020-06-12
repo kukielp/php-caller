@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .header {
+            background-color: #428BCA;
+            color: white;
+            text-align: center;
+            padding: 5px;
+        }
+        
+        .nav {
+            background-color: #eeeeee;
+            height: 500px;
+            width: 250px;
+            float: left;
+            padding: 5px;
+        }
+        
+        .section {
+            width: 350px;
+            float: left;
+            padding: 10px;
+        }
+        
+        #output-error{
+            color: red;
+        }
+        
+        span{
+            min-width: 80px;
+            float: left;
+        }
+        
+    </style>
+    <script>
+        
+        clear = function(){
+            document.getElementById('output').innerHTML = '';
+            document.getElementById('output-raw').innerHTML = '';
+            document.getElementById('result').innerHTML = '';
+        }
+        
+        getMessage = function(){
+            clear();
+            let r = new XMLHttpRequest();
+            r.open("GET", "https://2gxq4s6zlg.execute-api.eu-west-1.amazonaws.com/default/PHPHello", true);
+            r.onload = function () {
+                document.getElementById('output').innerHTML = JSON.stringify(JSON.parse(r.responseText).message);
+                document.getElementById('result').innerHTML = JSON.stringify(JSON.parse(r.responseText).name); 
+                document.getElementById('output-raw').innerHTML = r.responseText;
+            };
+            r.send(); 
+        }
+
+    </script>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>PHP Caller</h1>
+    </div>
+
+    <div class="nav">
+        <button onClick="getMessage()">Get Message</button>
+        <button onClick="window.location = '/'">Reload App</button>
+        <p>Use the buttons to call the api.</p>
+    </div>
+
+    <div class="section">
+        <h2>Messages</h2>
+        <p id="output"></p>
+        <h2>Result</h2>
+        <p id="result"></p>
+    </div>
+     <div class="section">
+        <h2>Raw Output</h2>
+        <pre id="output-raw"></pre>
+    </div>
+    
+</body>
+
+</html>
