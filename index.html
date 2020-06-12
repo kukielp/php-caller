@@ -43,11 +43,15 @@
         
         getMessage = function(){
             clear();
+            let firstNumber = document.getElementById('firstNumber').value;
+            let secondNumber = document.getElementById('secondNumber').value;
+            let data = "?firstNumber="+firstNumber+"&secondNumber="+secondNumber;
+
             let r = new XMLHttpRequest();
-            r.open("GET", "https://2gxq4s6zlg.execute-api.eu-west-1.amazonaws.com/default/PHPHello", true);
+            r.open("GET", `https://2gxq4s6zlg.execute-api.eu-west-1.amazonaws.com/default/PHPHello${data}`, true);
             r.onload = function () {
-                document.getElementById('output').innerHTML = JSON.stringify(JSON.parse(r.responseText).message);
-                document.getElementById('result').innerHTML = JSON.stringify(JSON.parse(r.responseText).name); 
+                document.getElementById('output').innerHTML = JSON.stringify(JSON.parse(r.responseText).runtime);
+                document.getElementById('result').innerHTML = JSON.stringify(JSON.parse(r.responseText).result); 
                 document.getElementById('output-raw').innerHTML = r.responseText;
             };
             r.send(); 
@@ -65,7 +69,11 @@
     <div class="nav">
         <button onClick="getMessage()">Get Message</button>
         <button onClick="window.location = '/'">Reload App</button>
-        <p>Use the buttons to call the api.</p>
+        <h4>Inputs</h4>
+        <span>1st Number:</span> <input id="firstNumber" placeholder="firstNumber" value="10">
+        <span>2nd Number:</span> <input id="secondNumber" placeholder="secondNumber" value="13">
+        <hr/>
+        <p>This function will add 2 numebrs in PHP in Lambda.  Click the button to call the api.</p>
     </div>
 
     <div class="section">
