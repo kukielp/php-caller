@@ -27,14 +27,25 @@
             color: red;
         }
         
-        span{
-            min-width: 80px;
-            float: left;
+        input {
+            max-width: 50px;
         }
         
+        .in {
+            max-width: 200px;
+            min-width: 100px;
+        }
+
+        .out {
+            min-width: 100px;
+            float: left;
+        
+        }
+
     </style>
     <script>
-        
+        //const endppoint = '{input-your-url}';
+        const endppoint = 'https://2gxq4s6zlg.execute-api.eu-west-1.amazonaws.com/default/PHPHello';
         clear = function(){
             document.getElementById('output').innerHTML = '';
             document.getElementById('output-raw').innerHTML = '';
@@ -43,12 +54,12 @@
         
         getMessage = function(){
             clear();
-            let firstNumber = document.getElementById('firstNumber').value;
-            let secondNumber = document.getElementById('secondNumber').value;
-            let data = "?firstNumber="+firstNumber+"&secondNumber="+secondNumber;
+            const firstNumber = document.getElementById('firstNumber').value;
+            const secondNumber = document.getElementById('secondNumber').value;
+            const data = "?firstNumber="+firstNumber+"&secondNumber="+secondNumber;
 
             let r = new XMLHttpRequest();
-            r.open("GET", `https://2gxq4s6zlg.execute-api.eu-west-1.amazonaws.com/default/PHPHello${data}`, true);
+            r.open("GET", `${endppoint}${data}`, true);
             r.onload = function () {
                 document.getElementById('output').innerHTML = JSON.stringify(JSON.parse(r.responseText).runtime);
                 document.getElementById('result').innerHTML = JSON.stringify(JSON.parse(r.responseText).result); 
@@ -67,22 +78,29 @@
     </div>
 
     <div class="nav">
+        <h4>Inputs</h4>
+        <div class="in">
+            <span class="out">1st Number: </span>
+            <input id="firstNumber" placeholder="firstNumber" value="10">
+        </div>
+        <div class="in">
+            <span class="out">2nd Number: </span>
+            <input id="secondNumber" placeholder="secondNumber" value="13">
+        </div>
+        <br/>
         <button onClick="getMessage()">Add the 2 numbers!</button>
         <button onClick="window.location = '/'">Reload App</button>
-        <h4>Inputs</h4>
-        <span>1st Number:</span> <input id="firstNumber" placeholder="firstNumber" value="10">
-        <span>2nd Number:</span> <input id="secondNumber" placeholder="secondNumber" value="13">
         <hr/>
-        <p>This function will add 2 numebrs in PHP in Lambda.  Click the button to call the api.</p>
+        <p>This function will add 2 number in PHP in Lambda.  Click the button to call the api.</p>
     </div>
 
     <div class="section">
-        <h2>Messages</h2>
+        <h2>Runtime Message</h2>
         <p id="output"></p>
         <h2>Result</h2>
         <p id="result"></p>
     </div>
-     <div class="section">
+    <div class="section">
         <h2>Raw Output</h2>
         <pre id="output-raw"></pre>
     </div>
